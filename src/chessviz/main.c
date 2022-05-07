@@ -1,36 +1,21 @@
-#include <stdio.h>
-#include "board/functions.h"
+#include "libchessviz/print.h"
+#include "read_move.h"
 
 int main()
 {
-    int size = 9;
-    char a[size][size];
-    chess(a);
-        
-    int i, j;
-    for (i = 0; i < size; i++){
-        for (j = 0; j < size; j++){
-            printf("%3c", a[i][j]);
-        }
-    printf("\n");
-    }
-
-    int n = 2;
-    char startPosN[n];
-    char finalPosN[n];
-    for (int i = 0; i < n; i++){
-        scanf("%1c", &startPosN[i]);
-    }
-    for (int i = 0; i < n; i++){
-        scanf("%1c", &finalPosN[i]);
-    }
-    swap(size, a, n, startPosN, finalPosN);
-    
-    for (i = 0; i < size; i++){
-        for (j = 0; j < size; j++){
-            printf("%3c", a[i][j]);
-        }
-    printf("\n");
-    }
-
+    int turnsc = 0;
+    int finish = 0;
+    char board[9][9]
+            = {{'8', 'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
+               {'7', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
+               {'6', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+               {'5', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+               {'4', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+               {'3', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+               {'2', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
+               {'1', 'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'},
+               {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'}};
+    printf("Input format: char int char char inr like e2-e4. \n");
+    print(board);
+    read_move(board, finish, turnsc);
 }

@@ -57,3 +57,4 @@ CTEST(read_txt, checkMoveUncorrect)
     
     ASSERT_EQUAL(res_error, temp);
 }
+

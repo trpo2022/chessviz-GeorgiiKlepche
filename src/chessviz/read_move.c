@@ -1,5 +1,5 @@
 #include "read_move.h"
-#include <libchessviz/chessviz.h>
+#include <libchessviz/print.h>
 char turn[5];
 
 void yf_cord_check(int* yf)

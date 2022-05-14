@@ -1,16 +1,17 @@
 #include <stdio.h>
 
+
 int checkMove(int n, char firstpos[n], int SsecondIndex, int FsecondIndex)
 {
-    int ALetter = 96;
+    int ALetter = 96; // A - ASCII
     if ((firstpos[0] - ALetter) == 2 || (firstpos[0] - ALetter) == 7 ){
         int temp = SsecondIndex - FsecondIndex;
         if (temp > 2){
-            printf("Figure can't walk >2 steps");
+            printf("Фигура не можешь ходить >2 шагов");
             return 0;
         }
         if (temp == 0){
-            printf("The figure does not take a step");
+            printf("Фигура не делает шаг");
             return 0;
         }
     } else return 1;
@@ -18,22 +19,24 @@ int checkMove(int n, char firstpos[n], int SsecondIndex, int FsecondIndex)
     return 0;
 }
 
+
+
 void check(int FirstIndex, int startSecond)
 {
     if (FirstIndex < 0){
-        printf("Error, going beyond the boundary of the chessboard\n");
+        printf("Ошибка, выход за границу шахматной доски\n");
         return;
     }
     if (startSecond < 0){
-        printf("Error, going beyond the boundary of the chessboard\n");
+        printf("Ошибка, выход за границу шахматной доски\n");
         return;
     }
     if (FirstIndex > 8){
-        printf("Error, going beyond the boundary of the chessboard\n");
+        printf("Ошибка, выход за границу шахматной доски\n");
         return;
     }
     if (startSecond > 8){
-        printf("Error, going beyond the boundary of the chessboard\n");
+        printf("Ошибка, выход за границу шахматной доски\n");
         return;
     }    
 }
@@ -81,6 +84,7 @@ void chess(char a[][9])
     a[0][6] = 'f';
     a[0][7] = 'g';
     a[0][8] = 'h';
+    
 
     a[1][1] = 'r';
     a[1][2] = 'n';
@@ -126,4 +130,6 @@ void chess(char a[][9])
     a[6][0] = '6';
     a[7][0] = '7';
     a[8][0] = '8';
+
+
 }

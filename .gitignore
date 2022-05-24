@@ -1,1 +1,3 @@
-*.o *.exe
+*.o *.exe *.a
+main
+chessviz

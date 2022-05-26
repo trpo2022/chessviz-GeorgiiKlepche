@@ -6,13 +6,13 @@ int main()
     int size = 9;
     char a[size][size];
     chess(a);
-        
+
     int i, j;
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
             printf("%3c", a[i][j]);
         }
-    printf("\n");
+        printf("\n");
     }
 
     int n = 2;

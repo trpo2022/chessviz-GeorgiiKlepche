@@ -43,7 +43,7 @@ void swap(
         int size,
         char a[size][size],
         int n,
-        char firstpos[n], 
+        char firstpos[n],
         char secondpos[n])
 {
     int ALetter = 96; // A - ASCII
@@ -65,7 +65,7 @@ void swap(
     printf("%c\n", a[finalSecondIndex][finalFirstIndex]);
 
     if (a[finalSecondIndex][finalFirstIndex] == ' ') {
-        a[finalSecondIndex][finalFirstIndex] 
+        a[finalSecondIndex][finalFirstIndex]
                 = a[startSecondIndex][startFirstIndex];
         a[startSecondIndex][startFirstIndex] = ' ';
     }

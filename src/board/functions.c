@@ -40,11 +40,11 @@ void check(int FirstIndex, int startSecond)
 }
 
 void swap(
-    int size, 
-    char a[size][size], 
-    int n, 
-    char firstpos[n], 
-    char secondpos[n])
+        int size, 
+        char a[size][size], 
+        int n, 
+        char firstpos[n], 
+        char secondpos[n])
 {
     int ALetter = 96; // A - ASCII
     int ANumber = 56;

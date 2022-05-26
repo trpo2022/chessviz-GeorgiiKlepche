@@ -6,18 +6,15 @@ int checkMove(int n, char firstpos[n], int SsecondIndex, int FsecondIndex)
     if ((firstpos[0] - ALetter) == 2 || (firstpos[0] - ALetter) == 7)
     {
         int temp = SsecondIndex - FsecondIndex;
-        if (temp > 2)
-        {
+        if (temp > 2) {
             printf("Фигура не можешь ходить >2 шагов");
             return 0;
         }
-        if (temp == 0)
-        {
+        if (temp == 0) {
             printf("Фигура не делает шаг");
             return 0;
         }
-    }
-    else
+    } else
         return 1;
 
     return 0;
@@ -25,23 +22,19 @@ int checkMove(int n, char firstpos[n], int SsecondIndex, int FsecondIndex)
 
 void check(int FirstIndex, int startSecond)
 {
-    if (FirstIndex < 0)
-    {
+    if (FirstIndex < 0) {
         printf("Ошибка, выход за границу шахматной доски\n");
         return;
     }
-    if (startSecond < 0)
-    {
+    if (startSecond < 0) {
         printf("Ошибка, выход за границу шахматной доски\n");
         return;
     }
-    if (FirstIndex > 8)
-    {
+    if (FirstIndex > 8) {
         printf("Ошибка, выход за границу шахматной доски\n");
         return;
     }
-    if (startSecond > 8)
-    {
+    if (startSecond > 8) {
         printf("Ошибка, выход за границу шахматной доски\n");
         return;
     }
@@ -67,8 +60,7 @@ void swap(int size, char a[size][size], int n, char firstpos[n], char secondpos[
 
     printf("%c\n", a[finalSecondIndex][finalFirstIndex]);
 
-    if (a[finalSecondIndex][finalFirstIndex] == ' ')
-    {
+    if (a[finalSecondIndex][finalFirstIndex] == ' ') {
         a[finalSecondIndex][finalFirstIndex] = a[startSecondIndex][startFirstIndex];
         a[startSecondIndex][startFirstIndex] = ' ';
     }
@@ -100,21 +92,17 @@ void chess(char a[][9])
     int k;
     int l;
 
-    for (k = 0; k < 9; k++)
-    {
+    for (k = 0; k < 9; k++) {
         a[2][k] = 'p';
     }
 
-    for (k = 3; k < 7; k++)
-    {
-        for (l = 1; l < 9; l++)
-        {
+    for (k = 3; k < 7; k++) {
+        for (l = 1; l < 9; l++) {
             a[k][l] = ' ';
         }
     }
 
-    for (l = 0; l < 9; l++)
-    {
+    for (l = 0; l < 9; l++) {
         a[7][l] = 'P';
     }
     a[8][0] = ' ';

@@ -21,7 +21,7 @@ CTEST(read_txt, checkMoveCorrect)
     char positions[8];
     fgets(positions, 8, file);
     fclose(file);
-    
+
     int ANumber = 56;
     const int res_error = 0;
     int size = 9;

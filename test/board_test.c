@@ -1,8 +1,7 @@
-#include "../thirdparty/ctest.h"
-#include <stdio.h>
 #include "../src/board/functions.h"
 #include "../src/board/functions.c"
-
+#include "../thirdparty/ctest.h"
+#include <stdio.h>
 
 CTEST(read_txt, simple_read_file)
 {
@@ -38,7 +37,6 @@ CTEST(read_txt, checkMoveCorrect)
     ASSERT_EQUAL(res_error, temp);
 }
 
-
 CTEST(read_txt, checkMoveUncorrect)
 {
     FILE* file = fopen("test.txt", "r");
@@ -51,8 +49,8 @@ CTEST(read_txt, checkMoveUncorrect)
     int size = 9;
     char a[size][size];
     chess(a);
-    int startSecondIndex = 8 - ((positions[1] - ANumber)*(-1));
-    int finalSecondIndex = 8 - ((positions[4] - ANumber)*(-1));
+    int startSecondIndex = 8 - ((positions[1] - ANumber) * (-1));
+    int finalSecondIndex = 8 - ((positions[4] - ANumber) * (-1));
     int temp = checkMove(8, positions, startSecondIndex, finalSecondIndex);
     
     ASSERT_EQUAL(res_error, temp);

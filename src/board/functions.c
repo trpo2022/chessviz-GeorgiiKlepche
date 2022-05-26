@@ -3,8 +3,7 @@
 int checkMove(int n, char firstpos[n], int SsecondIndex, int FsecondIndex)
 {
     int ALetter = 96; // A - ASCII
-    if ((firstpos[0] - ALetter) == 2 || (firstpos[0] - ALetter) == 7)
-    {
+    if ((firstpos[0] - ALetter) == 2 || (firstpos[0] - ALetter) == 7) {
         int temp = SsecondIndex - FsecondIndex;
         if (temp > 2) {
             printf("Фигура не можешь ходить >2 шагов");
@@ -40,7 +39,12 @@ void check(int FirstIndex, int startSecond)
     }
 }
 
-void swap(int size, char a[size][size], int n, char firstpos[n], char secondpos[n])
+void swap(
+    int size, 
+    char a[size][size], 
+    int n, 
+    char firstpos[n], 
+    char secondpos[n])
 {
     int ALetter = 96; // A - ASCII
     int ANumber = 56;
@@ -61,13 +65,14 @@ void swap(int size, char a[size][size], int n, char firstpos[n], char secondpos[
     printf("%c\n", a[finalSecondIndex][finalFirstIndex]);
 
     if (a[finalSecondIndex][finalFirstIndex] == ' ') {
-        a[finalSecondIndex][finalFirstIndex] = a[startSecondIndex][startFirstIndex];
+        a[finalSecondIndex][finalFirstIndex] 
+                = a[startSecondIndex][startFirstIndex];
         a[startSecondIndex][startFirstIndex] = ' ';
     }
 }
 
-#include <stdio.h>
 #include "functions.h"
+#include <stdio.h>
 void chess(char a[][9])
 {
     a[0][0] = ' ';

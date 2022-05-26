@@ -90,13 +90,13 @@ struct ctest {
     CTEST_IMPL_NAME(sname##_##tname##_teardown_ptr)
 #define CTEST_IMPL_MAGIC (0xdeadbeef)
 #ifdef __APPLE__
-#define CTEST_IMPL_SECTION 
-    __attribute__((used, section ("__DATA, .ctest"), aligned(1)))
+#define CTEST_IMPL_SECTION
+__attribute__((used, section ("__DATA, .ctest"), aligned(1)))
 #else
 #define CTEST_IMPL_SECTION __attribute__((used, section(".ctest"), aligned(1)))
 #endif
 
-#define CTEST_IMPL_STRUCT(sname, tname, tskip, tdata, tsetup, tteardown) \
+#define CTEST_IMPL_STRUCT(sname, tname, tskip, tdata, tsetup, tteardown)      \
     static struct ctest CTEST_IMPL_TNAME(sname, tname) CTEST_IMPL_SECTION = { \
             #sname,                                                           \
             #tname,                                                           \
@@ -242,11 +242,15 @@ void assert_not_equal_u(
 #define ASSERT_NOT_EQUAL_U(exp, real) \
     assert_not_equal_u(exp, real, __FILE__, __LINE__)
 
-void assert_not_equal(intmax_t exp, intmax_t real, const char* caller, int line);
-#define ASSERT_NOT_EQUAL(exp, real) assert_not_equal(exp, real, __FILE__, __LINE__)
+void assert_not_equal(
+        intmax_t exp, intmax_t real, const char* caller, int line);
+#define ASSERT_NOT_EQUAL(exp, real) \
+    assert_not_equal(exp, real, __FILE__, __LINE__)
 
-void assert_not_equal_u(uintmax_t exp, uintmax_t real, const char* caller, int line);
-#define ASSERT_NOT_EQUAL_U(exp, real) assert_not_equal_u(exp, real, __FILE__, __LINE__)
+void assert_not_equal_u(
+        uintmax_t exp, uintmax_t real, const char* caller, int line);
+#define ASSERT_NOT_EQUAL_U(exp, real) \
+    assert_not_equal_u(exp, real, __FILE__, __LINE__)
 
 void assert_interval(
         intmax_t exp1,
@@ -326,16 +330,16 @@ typedef int (*ctest_filter_func)(struct ctest*);
 #define ANSI_WHITE "\033[01;37m"
 #define ANSI_NORMAL "\033[0m"
 
-CTEST(suite, test) 
-{     
+CTEST(suite, test)
+{
 }
 
-static void vprint_errormsg(const char* const fmt, va_list ap) 
+static void vprint_errormsg(const char* const fmt, va_list ap)
         CTEST_IMPL_FORMAT_PRINTF(1, 0);
-static void print_errormsg(const char* const fmt, ...) 
+static void print_errormsg(const char* const fmt, ...)
         CTEST_IMPL_FORMAT_PRINTF(1, 2);
 
-static void vprint_errormsg(const char* const fmt, va_list ap) 
+static void vprint_errormsg(const char* const fmt, va_list ap)
 {
     // (v)snprintf returns the number that would have been written
     const int ret = vsnprintf(ctest_errormsg, ctest_errorsize, fmt, ap);
@@ -343,15 +347,15 @@ static void vprint_errormsg(const char* const fmt, va_list ap)
         ctest_errormsg[0] = 0x00;
     } else {
         const size_t size = (size_t)ret;
-        const size_t s 
-                = (ctest_errorsize <= size ? size -ctest_errorsize : size);
+        const size_t s
+                = (ctest_errorsize <= size ? size - ctest_errorsize : size);
         // ctest_errorsize may overflow at this point
         ctest_errorsize -= s;
         ctest_errormsg += s;
     }
 }
 
-static void print_errormsg(const char* const fmt, ...) 
+static void print_errormsg(const char* const fmt, ...)
 {
     va_list argp;
     va_start(argp, fmt);
@@ -359,7 +363,7 @@ static void print_errormsg(const char* const fmt, ...)
     va_end(argp);
 }
 
-static void msg_start(const char* color, const char* title) 
+static void msg_start(const char* color, const char* title)
 {
     if (color_output) {
         print_errormsg("%s", color);
@@ -367,7 +371,7 @@ static void msg_start(const char* color, const char* title)
     print_errormsg("  %s: ", title);
 }
 
-static void msg_end(void) 
+static void msg_end(void)
 {
     if (color_output) {
         print_errormsg(ANSI_NORMAL);
@@ -404,81 +408,86 @@ void CTEST_ERR(const char* fmt, ...)
 
 CTEST_IMPL_DIAG_POP()
 
-void assert_str(const char* exp, const char*  real, const char* caller, int line) 
+void assert_str(const char* exp, const char* real, const char* caller, int line)
 {
-    if ((exp == NULL && real != NULL) || (exp != NULL && real == NULL) 
+    if ((exp == NULL && real != NULL) || (exp != NULL && real == NULL)
         || (exp && real && strcmp(exp, real) != 0)) {
         CTEST_ERR("%s:%d  expected '%s', got '%s'", caller, line, exp, real);
     }
 }
 
 void assert_wstr(
-        const wchar_t *exp, const wchar_t *real, const char* caller, int line) 
+        const wchar_t* exp, const wchar_t* real, const char* caller, int line)
 {
-    if ((exp == NULL && real != NULL) || (exp != NULL && real == NULL) 
+    if ((exp == NULL && real != NULL) || (exp != NULL && real == NULL)
         || (exp && real && wcscmp(exp, real) != 0)) {
         CTEST_ERR("%s:%d  expected '%ls', got '%ls'", caller, line, exp, real);
     }
 }
 
 void assert_data(
-        const unsigned char* exp, 
+        const unsigned char* exp,
         size_t expsize,
-        const unsigned char* real, 
+        const unsigned char* real,
         size_t realsize,
-        const char* caller, 
-        int line) 
+        const char* caller,
+        int line)
 {
     size_t i;
     if (expsize != realsize) {
         CTEST_ERR(
-                S"%s:%d  expected %" PRIuMAX " bytes, got %" PRIuMAX, 
-                caller, 
-                line, 
-                (uintmax_t)expsize, 
+                S "%s:%d  expected %" PRIuMAX " bytes, got %" PRIuMAX,
+                caller,
+                line,
+                (uintmax_t)expsize,
                 (uintmax_t)realsize);
     }
     for (i = 0; i < expsize; i++) {
         if (exp[i] != real[i]) {
             CTEST_ERR(
                     "%s:%d expected 0x%02x at offset %" PRIuMAX " got 0x%02x",
-                    caller, 
-                    line, 
-                    exp[i], 
-                    (uintmax_t)i, 
+                    caller,
+                    line,
+                    exp[i],
+                    (uintmax_t)i,
                     real[i]);
         }
     }
 }
 
-void assert_equal(intmax_t exp, intmax_t real, const char* caller, int line) 
+void assert_equal(intmax_t exp, intmax_t real, const char* caller, int line)
 {
     if (exp != real) {
-        CTEST_ERR("%s:%d  expected %" PRIdMAX ", got %" PRIdMAX, caller, line, exp, real);
-    }
-}
-
-void assert_equal_u(uintmax_t exp, uintmax_t real, const char* caller, int line) 
-{
-    if (exp != real) {
-        CTEST_ERR("%s:%d  expected %" PRIuMAX ", got %" PRIuMAX, caller, line, exp, real);
-    }
-}
-
-void assert_not_equal(intmax_t exp, intmax_t real, const char* caller, int line) 
-{
-    if ((exp) == (real)) {
         CTEST_ERR(
-                "%s:%d  should not be %" 
-                PRIdMAX, 
-                caller, 
-                line, 
+                "%s:%d  expected %" PRIdMAX ", got %" PRIdMAX,
+                caller,
+                line,
+                exp,
                 real);
     }
 }
 
+void assert_equal_u(uintmax_t exp, uintmax_t real, const char* caller, int line)
+{
+    if (exp != real) {
+        CTEST_ERR(
+                "%s:%d  expected %" PRIuMAX ", got %" PRIuMAX,
+                caller,
+                line,
+                exp,
+                real);
+    }
+}
+
+void assert_not_equal(intmax_t exp, intmax_t real, const char* caller, int line)
+{
+    if ((exp) == (real)) {
+        CTEST_ERR("%s:%d  should not be %" PRIdMAX, caller, line, real);
+    }
+}
+
 void assert_not_equal_u(
-        uintmax_t exp, uintmax_t real, const char* caller, int line) 
+        uintmax_t exp, uintmax_t real, const char* caller, int line)
 {
     if ((exp) == (real)) {
         CTEST_ERR("%s:%d  should not be %" PRIuMAX, caller, line, real);
@@ -486,111 +495,110 @@ void assert_not_equal_u(
 }
 
 void assert_interval(
-        intmax_t exp1, 
-        intmax_t exp2, 
-        intmax_t real, 
-        const char* caller, 
-        int line) 
+        intmax_t exp1,
+        intmax_t exp2,
+        intmax_t real,
+        const char* caller,
+        int line)
 {
     if (real < exp1 || real > exp2) {
         CTEST_ERR(
-                "%s:%d  expected %" PRIdMAX "-%" PRIdMAX ", got %" PRIdMAX, 
-                caller, 
-                line, 
-                exp1, 
-                exp2, 
+                "%s:%d  expected %" PRIdMAX "-%" PRIdMAX ", got %" PRIdMAX,
+                caller,
+                line,
+                exp1,
+                exp2,
                 real);
     }
 }
 
 void assert_dbl_near(
-        double exp, double real, double tol, const char* caller, int line) 
+        double exp, double real, double tol, const char* caller, int line)
 {
     double diff = exp - real;
     double absdiff = diff;
     /* avoid using fabs and linking with a math lib */
-    if(diff < 0) {
+    if (diff < 0) {
         absdiff *= -1;
     }
     if (absdiff > tol) {
         CTEST_ERR(
-                "%s:%d  expected %0.3e, got %0.3e (diff %0.3e, tol %0.3e)", 
-                caller, 
-                line, 
-                exp, 
-                real, 
-                diff, 
+                "%s:%d  expected %0.3e, got %0.3e (diff %0.3e, tol %0.3e)",
+                caller,
+                line,
+                exp,
+                real,
+                diff,
                 tol);
     }
 }
 
 void assert_dbl_far(
-        double exp, double real, double tol, const char* caller, int line) 
+        double exp, double real, double tol, const char* caller, int line)
 {
     double diff = exp - real;
     double absdiff = diff;
     /* avoid using fabs and linking with a math lib */
-    if(diff < 0) {
+    if (diff < 0) {
         absdiff *= -1;
     }
     if (absdiff <= tol) {
         CTEST_ERR(
-                "%s:%d  expected %0.3e, got %0.3e (diff %0.3e, tol %0.3e)", 
-                caller, 
-                line, 
-                exp, 
-                real, 
-                diff, 
+                "%s:%d  expected %0.3e, got %0.3e (diff %0.3e, tol %0.3e)",
+                caller,
+                line,
+                exp,
+                real,
+                diff,
                 tol);
     }
 }
 
-void assert_null(void* real, const char* caller, int line) 
+void assert_null(void* real, const char* caller, int line)
 {
     if ((real) != NULL) {
         CTEST_ERR("%s:%d  should be NULL", caller, line);
     }
 }
 
-void assert_not_null(const void* real, const char* caller, int line) 
+void assert_not_null(const void* real, const char* caller, int line)
 {
     if (real == NULL) {
         CTEST_ERR("%s:%d  should not be NULL", caller, line);
     }
 }
 
-void assert_true(int real, const char* caller, int line) 
+void assert_true(int real, const char* caller, int line)
 {
     if ((real) == 0) {
         CTEST_ERR("%s:%d  should be true", caller, line);
     }
 }
 
-void assert_false(int real, const char* caller, int line) 
+void assert_false(int real, const char* caller, int line)
 {
     if ((real) != 0) {
         CTEST_ERR("%s:%d  should be false", caller, line);
     }
 }
 
-void assert_fail(const char* caller, int line) 
+void assert_fail(const char* caller, int line)
 {
     CTEST_ERR("%s:%d  shouldn't come here", caller, line);
 }
 
-
-static int suite_all(struct ctest* t) 
+static int suite_all(struct ctest* t)
 {
     (void)t; // fix unused parameter warning
     return 1;
 }
 
-static int suite_filter(struct ctest* t) 
+static int suite_filter(struct ctest* t)
 {
     return strncmp(suite_name, t->ssname, strlen(suite_name)) == 0;
 }
 
-static uint64_t getCurrentTime(void) 
+static uint64_t getCurrentTime(void)
 {
     struct timeval now;
     gettimeofday(&now, NULL);
@@ -600,7 +608,7 @@ static uint64_t getCurrentTime(void)
     return now64;
 }
 
-static void color_print(const char* color, const char* text) 
+static void color_print(const char* color, const char* text)
 {
     if (color_output)
         printf("%s%s" ANSI_NORMAL "\n", color, text);
@@ -612,7 +620,7 @@ static void color_print(const char* color, const char* text)
 #include <signal.h>
 static void sighandler(int signum)
 {
-    const char msg_color[] 
+    const char msg_color[]
             = ANSI_BRED "[SIGSEGV: Segmentation fault]" ANSI_NORMAL "\n";
     const char msg_nocolor[] = "[SIGSEGV: Segmentation fault]\n";
 
@@ -628,8 +636,8 @@ static void sighandler(int signum)
 
 int ctest_main(int argc, const char* argv[]);
 
-__attribute__((no_sanitize_address)) int 
-ctest_main(int argc, const char *argv[])
+__attribute__((no_sanitize_address)) int
+ctest_main(int argc, const char* argv[])
 {
     static int total = 0;
     static int num_ok = 0;
@@ -657,14 +665,14 @@ ctest_main(int argc, const char *argv[])
     struct ctest* ctest_end = &CTEST_IMPL_TNAME(suite, test);
     // find begin and end of section by comparing magics
     while (1) {
-        struct ctest* t = ctest_begin-1;
-        if (t->magic != CTEST_IMPL_MAGIC) 
+        struct ctest* t = ctest_begin - 1;
+        if (t->magic != CTEST_IMPL_MAGIC)
             break;
         ctest_begin--;
     }
     while (1) {
-        struct ctest* t = ctest_end+1;
-        if (t->magic != CTEST_IMPL_MAGIC) 
+        struct ctest* t = ctest_end + 1;
+        if (t->magic != CTEST_IMPL_MAGIC)
             break;
         ctest_end++;
     }
@@ -672,14 +680,14 @@ ctest_main(int argc, const char *argv[])
 
     static struct ctest* test;
     for (test = ctest_begin; test != ctest_end; test++) {
-        if (test == &CTEST_IMPL_TNAME(suite, test)) 
+        if (test == &CTEST_IMPL_TNAME(suite, test))
             continue;
-        if (filter(test)) 
+        if (filter(test))
             total++;
     }
 
     for (test = ctest_begin; test != ctest_end; test++) {
-        if (test == &CTEST_IMPL_TNAME(suite, test)) 
+        if (test == &CTEST_IMPL_TNAME(suite, test))
             continue;
         if (filter(test)) {
             ctest_errorbuffer[0] = 0;
@@ -693,13 +701,13 @@ ctest_main(int argc, const char *argv[])
             } else {
                 int result = setjmp(ctest_err);
                 if (result == 0) {
-                    if (test->setup && *test->setup) 
+                    if (test->setup && *test->setup)
                         (*test->setup)(test->data);
                     if (test->data)
                         test->run.unary(test->data);
                     else
                         test->run.nullary();
-                    if (test->teardown && *test->teardown) 
+                    if (test->teardown && *test->teardown)
                         (*test->teardown)(test->data);
                         // if we got here it's ok
 #ifdef CTEST_COLOR_OK
@@ -712,7 +720,7 @@ ctest_main(int argc, const char *argv[])
                     color_print(ANSI_BRED, "[FAIL]");
                     num_fail++;
                 }
-                if (ctest_errorsize != MSG_SIZE - 1) 
+                if (ctest_errorsize != MSG_SIZE - 1)
                     printf("%s", ctest_errorbuffer);
             }
             idx++;
@@ -723,14 +731,14 @@ ctest_main(int argc, const char *argv[])
     const char* color = (num_fail) ? ANSI_BRED : ANSI_GREEN;
     char results[80];
     snprintf(
-            results, 
-            sizeof(results), 
-            "RESULTS: %d tests (%d ok, %d failed, %d skipped) ran in %" PRIu64 
-            " ms", 
-            total, 
-            num_ok, 
-            num_fail, 
-            num_skip, 
+            results,
+            sizeof(results),
+            "RESULTS: %d tests (%d ok, %d failed, %d skipped) ran in %" PRIu64
+            " ms",
+            total,
+            num_ok,
+            num_fail,
+            num_skip,
             (t2 - t1) / 1000);
     color_print(color, results);
     return num_fail;

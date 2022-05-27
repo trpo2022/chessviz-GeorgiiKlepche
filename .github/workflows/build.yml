@@ -19,9 +19,7 @@ jobs:
         run: make test
         
       - name: Run Test
-        run: ./test/main.c
+        run: ./bin/test/main
 
-      - name: Run Test1
-        run: ./test/board_test.c
 
 

@@ -15,5 +15,13 @@ jobs:
       - name: Build application
         run: make
 
-        name: Test application
+      - name: Test application
         run: make test
+        
+      - name: Run Test
+        run: ./test/main.c
+
+      - name: Run Test1
+        run: ./test/board_test.c
+
+
